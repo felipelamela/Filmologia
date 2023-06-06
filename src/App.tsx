@@ -1,38 +1,50 @@
 import * as React from "react"
 import {
   ChakraProvider,
+  GridItem,
   Box,
   Text,
+  Flex,
   Link,
   VStack,
   Code,
   Grid,
   theme,
 } from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+import BoxFilme from "./Components/BoxFilme/BoxFilme"
+import BoxModal from "./Components/BoxModal/BoxModal"
+import Main from "./Components/Main/Main"
+
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
+    <Grid
+      templateAreas={`"header header"
+                  "nav main"
+                  "nav footer"`}
+      gridTemplateRows={'100px 1fr 30px'}
+      gridTemplateColumns={'150px 1fr'}
+      h='200px'
+      gap='4'
+      color='blackAlpha.700'
+      fontWeight='bold'
+    >
+
+      <GridItem pl='4' bg='orange.300' area={'header'}>
+        Header
+      </GridItem>
+      <GridItem pl='2' bg='pink.300' area={'nav'}>
+        Nav
+      </GridItem>
+      <Flex flexWrap={'wrap'} justifyContent={'space-evenly'} pl='2' bg='green.300'>
+        <Main />
+
+      </Flex>
+      <GridItem pl='2' bg='blue.300' area={'footer'}>
+        Footer
+      </GridItem>
+    </Grid>
+
+
   </ChakraProvider>
 )
