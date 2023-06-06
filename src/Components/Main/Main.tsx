@@ -1,8 +1,8 @@
 import React from 'react'
 import axios from 'axios'
-import BoxFilme from '../BoxFilme/BoxFilme'
-import { Button, Modal, Text, ModalCloseButton, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@chakra-ui/react"
-import BoxModal from '../BoxModal/BoxModal'
+import BoxFilme from './BoxFilme/BoxFilme'
+import { Modal, Spinner, useDisclosure } from "@chakra-ui/react"
+import BoxModal from './BoxModal/BoxModal'
 
 interface FilmeProps {
   title: string,
@@ -12,12 +12,28 @@ interface FilmeProps {
   release_date: string
 }
 
-const Main = () => {
+interface Data {
+  dataFilmes: number | null
+}
+
+const Main: React.FC<Data> = ({ dataFilmes }) => {
   const [lista, setLista] = React.useState<FilmeProps[]>([])
   const [filme, setFilme] = React.useState<FilmeProps | null>(null)
+  const [anoFilme, setAnoFilme] = React.useState<number>(0)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
+  React.useEffect(() => {
+    let data: number = new Date().getFullYear()
+    if (dataFilmes === null) {
+      setAnoFilme(data)
+    } else {
+      setAnoFilme(dataFilmes)
+    }
+
+  }, [dataFilmes])
+
   const buscaFilmes = async () => {
+    setLista([])
     try {
       const options = {
         method: 'GET',
@@ -26,7 +42,7 @@ const Main = () => {
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMmY5MDc1NTM0Yzc0Y2VlYTdiYjljNzA0ZjQ2OGY2OSIsInN1YiI6IjY0N2UwZjU5MGUyOWEyMmJlMzI3ZmIyOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2OthKyiB1TzqDtHO0Kyntq3OLQY8O_GFvyoE3jmXImg'
         }
       };
-      const response = await axios.get('https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=1&primary_release_year=2015&sort_by=popularity.desc', options)
+      const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=1&primary_release_year=${anoFilme}&sort_by=popularity.desc`, options)
       setLista(response.data.results)
     }
 
@@ -37,9 +53,9 @@ const Main = () => {
 
   React.useEffect(() => {
     buscaFilmes()
-  }, [])
+  }, [anoFilme])
 
-  if (lista.length === 0) return <p>carregando</p>
+  if (lista.length === 0) return <Spinner />
 
   return (
     <>
@@ -52,6 +68,7 @@ const Main = () => {
           onClick={onOpen}
           title={filme.title}
           poster_path={filme.poster_path}
+
         />
       ))}
 
@@ -61,7 +78,7 @@ const Main = () => {
         </Modal>
       </>
 
-    </>
+    </ >
 
   )
 }

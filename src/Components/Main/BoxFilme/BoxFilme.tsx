@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react'
+import styles from './BoxFilme.module.css'
 
 
 interface BoxFilmeProps {
@@ -12,8 +13,6 @@ interface BoxFilmeProps {
 }
 
 const BoxFilme: React.FC<BoxFilmeProps> = ({ poster_path, title, onClick, setFilme, index, lista }) => {
-
-
   const handleClick = () => {
     setFilme(lista[index])
     onClick()
@@ -22,7 +21,7 @@ const BoxFilme: React.FC<BoxFilmeProps> = ({ poster_path, title, onClick, setFil
   return (
     <>
       <Box maxW={300} p={4}>
-        <img onClick={handleClick} style={{ borderRadius: "10px" }} src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={title} />
+        <img onClick={handleClick} className={styles.boxFilmeImagem} src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={title} />
       </Box>
     </>
   )
