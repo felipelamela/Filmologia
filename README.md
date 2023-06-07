@@ -4,6 +4,10 @@
 
 Filmologia é um SPA (Single Page Application) simples e direto que oferece uma coleção de filmes. Seu objetivo é fornecer acesso a uma ampla seleção de filmes, divididos por anos de lançamento, e permitir a busca por títulos específicos.
 
+## Vercel
+
+[Filmologia](https://filmologia.vercel.app/)
+
 ## Caracteristica
 
 - Acesso à API do TMDB por "Age" e "Query".
