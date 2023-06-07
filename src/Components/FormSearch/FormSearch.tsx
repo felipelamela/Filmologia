@@ -69,9 +69,3 @@ const FormSearch: React.FC<DataSearch> = ({ setLista, input, setInput }) => {
 }
 
 export default FormSearch
-
-
-
-
-
-//setLista(response.data.results)

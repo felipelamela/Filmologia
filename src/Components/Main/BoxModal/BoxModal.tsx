@@ -4,7 +4,6 @@ import styles from "./BoxModal.module.css"
 import { DataBoxModal } from '../../../interface'
 
 
-
 const BoxModal: React.FC<DataBoxModal> = ({ filme }) => {
 
   return (
