@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from '@chakra-ui/react'
+import {Button, Flex } from '@chakra-ui/react'
 import React from 'react'
 import styles from './Nav.module.css'
 
@@ -11,10 +11,12 @@ interface Eventos extends React.MouseEvent<HTMLButtonElement> {
 
 interface Data {
   setDataFilmes: Function
+  setPagina: Function
+  setInput:Function
 }
 
 
-const Nav: React.FC<Data> = ({ setDataFilmes }) => {
+const Nav: React.FC<Data> = ({ setDataFilmes, setPagina,  setInput}) => {
   const anoAtual: number = new Date().getFullYear()
   const anoLimite: number = 1950
   const [listaDeAnos, setListaDeAnos] = React.useState<Anos[]>([])
@@ -29,9 +31,12 @@ const Nav: React.FC<Data> = ({ setDataFilmes }) => {
 
   }, [])
 
+
+
   const handleClick = (event: Eventos) => {
+    setInput('')
+    setPagina(1)
     setDataFilmes(event.target.innerText)
-    console.log(event.target.innerText)
   }
 
 
@@ -72,8 +77,6 @@ const Nav: React.FC<Data> = ({ setDataFilmes }) => {
         <Button
           className={styles.botaoAno}
           onClick={handleClick}
-          w='150px'
-          width='100px'
           key={ano}
           colorScheme='teal'
           variant='outline'
@@ -93,16 +96,3 @@ const Nav: React.FC<Data> = ({ setDataFilmes }) => {
 export default Nav
 
 
-
-/*
-
-      {
-        listaDeAnos.map((ano) => (
-          <Button colorScheme='teal' variant='outline'>
-
-          </Button>
-        ))
-      }
-
-
-*/

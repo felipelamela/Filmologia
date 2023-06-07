@@ -14,13 +14,49 @@ interface FilmeProps {
 
 interface Data {
   dataFilmes: number | null
+  pagina: number
+  setPagina: Function
+  lista: FilmeProps[]
+  setLista: Function
+  setInput: Function
 }
 
-const Main: React.FC<Data> = ({ dataFilmes }) => {
-  const [lista, setLista] = React.useState<FilmeProps[]>([])
+const Main: React.FC<Data> = ({ dataFilmes, pagina, lista, setLista, setInput }) => {
   const [filme, setFilme] = React.useState<FilmeProps | null>(null)
   const [anoFilme, setAnoFilme] = React.useState<number>(0)
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const buscaFilmes = async () => {
+    setInput('')
+    setLista([])
+    const options = {
+      method: 'GET',
+      url: 'https://api.themoviedb.org/3/discover/movie',
+      params: {
+        include_adult: 'false',
+        include_video: 'false',
+        primary_release_year: dataFilmes,
+        language: 'pt-BR',
+        page: pagina,
+        sort_by: 'popularity.desc'
+      },
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMmY5MDc1NTM0Yzc0Y2VlYTdiYjljNzA0ZjQ2OGY2OSIsInN1YiI6IjY0N2UwZjU5MGUyOWEyMmJlMzI3ZmIyOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2OthKyiB1TzqDtHO0Kyntq3OLQY8O_GFvyoE3jmXImg'
+      }
+    };
+
+    axios
+      .request(options)
+      .then((response) => {
+        setLista(response.data.results);
+      })
+      .catch((error) => {
+        console.log(error)
+      }
+      )
+  }
+
 
   React.useEffect(() => {
     let data: number = new Date().getFullYear()
@@ -29,34 +65,17 @@ const Main: React.FC<Data> = ({ dataFilmes }) => {
     } else {
       setAnoFilme(dataFilmes)
     }
-
   }, [dataFilmes])
 
-  const buscaFilmes = async () => {
-    setLista([])
-    try {
-      const options = {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMmY5MDc1NTM0Yzc0Y2VlYTdiYjljNzA0ZjQ2OGY2OSIsInN1YiI6IjY0N2UwZjU5MGUyOWEyMmJlMzI3ZmIyOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2OthKyiB1TzqDtHO0Kyntq3OLQY8O_GFvyoE3jmXImg'
-        }
-      };
-      const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=1&primary_release_year=${anoFilme}&sort_by=popularity.desc`, options)
-      setLista(response.data.results)
-    }
 
-    catch (error) {
-      console.log(error)
-    }
-  }
 
   React.useEffect(() => {
     buscaFilmes()
-  }, [anoFilme])
+  }, [anoFilme, pagina])
+
+
 
   if (lista.length === 0) return <Spinner />
-
   return (
     <>
       {lista.map((filme, index) => (
@@ -78,33 +97,10 @@ const Main: React.FC<Data> = ({ dataFilmes }) => {
         </Modal>
       </>
 
+
     </ >
 
   )
 }
 
 export default Main
-
-
-/*
-URL IMAGEM =>   
-BoxFilme title={title} poster_path={poster_path} />
-
-
-          {lista.length > 0 && <BoxModal
-           filme={filme} 
-           
-           
-           />}
-
-
-
-{lista.map(({ title, poster_path, overview, vote_average, vote_count, }, index) => (
-        <Box onClick={() => handleCard(index)} maxW={300} p={4} key={title} >
-          <img style={{ borderRadius: "10px" }} src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={title} />
-          <Text fontSize='3xl'>{title}</Text>
-          <Text fontSize='2x1'>{overview}</Text>
-        </Box>
-      ))}
-
-*/

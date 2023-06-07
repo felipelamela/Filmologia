@@ -17,8 +17,6 @@ interface BoxModalProps {
 
 const BoxModal: React.FC<BoxModalProps> = ({ filme }) => {
 
-  console.log(filme)
-
   return (
     <>
       <ModalOverlay />
