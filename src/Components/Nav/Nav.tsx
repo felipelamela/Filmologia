@@ -1,29 +1,17 @@
-import {Button, Flex } from '@chakra-ui/react'
+import { Button, Flex } from '@chakra-ui/react'
 import React from 'react'
 import styles from './Nav.module.css'
-
-interface Anos {
-  ano: number
-}
-interface Eventos extends React.MouseEvent<HTMLButtonElement> {
-  target: HTMLElement
-}
-
-interface Data {
-  setDataFilmes: Function
-  setPagina: Function
-  setInput:Function
-}
+import { AnosNav, DataNav, EventosNav } from '../../interface'
 
 
-const Nav: React.FC<Data> = ({ setDataFilmes, setPagina,  setInput}) => {
+const Nav: React.FC<DataNav> = ({ setDataFilmes, setPagina, setInput }) => {
   const anoAtual: number = new Date().getFullYear()
   const anoLimite: number = 1950
-  const [listaDeAnos, setListaDeAnos] = React.useState<Anos[]>([])
+  const [listaDeAnos, setListaDeAnos] = React.useState<AnosNav[]>([])
 
 
   React.useEffect(() => {
-    const anos: Anos[] = []
+    const anos: AnosNav[] = []
     for (let ano = anoAtual; ano >= anoLimite; ano--) {
       anos.push({ ano })
     }
@@ -33,7 +21,7 @@ const Nav: React.FC<Data> = ({ setDataFilmes, setPagina,  setInput}) => {
 
 
 
-  const handleClick = (event: Eventos) => {
+  const handleClick = (event: EventosNav) => {
     setInput('')
     setPagina(1)
     setDataFilmes(event.target.innerText)
@@ -51,7 +39,8 @@ const Nav: React.FC<Data> = ({ setDataFilmes, setPagina,  setInput}) => {
       gap={2}
       maxW={800}
       w='100vw'
-      height="65px"
+      height="60px"
+      m={0}
       sx={{
         '&:hover': {
           overflowX: 'scroll'

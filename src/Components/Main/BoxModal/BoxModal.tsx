@@ -1,21 +1,11 @@
 import React from 'react'
 import { Text, ModalCloseButton, ModalOverlay, ModalContent, ModalHeader, ModalBody } from "@chakra-ui/react"
 import styles from "./BoxModal.module.css"
+import { DataBoxModal } from '../../../interface'
 
 
-interface Filme {
-  title: string
-  poster_path: string,
-  vote_average: number,
-  overview: string,
-  release_date: string
-}
 
-interface BoxModalProps {
-  filme: Filme,
-}
-
-const BoxModal: React.FC<BoxModalProps> = ({ filme }) => {
+const BoxModal: React.FC<DataBoxModal> = ({ filme }) => {
 
   return (
     <>

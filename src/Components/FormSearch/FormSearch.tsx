@@ -1,30 +1,13 @@
 import React from 'react'
 import { Input, Button } from '@chakra-ui/react'
 import axios from 'axios';
-
-interface Eventos extends React.FormEvent<HTMLFormElement> {
-  target: HTMLElement
-}
-interface FilmeProps {
-  title: string,
-  poster_path: string,
-  vote_average: number,
-  overview: string,
-  release_date: string
-}
-
-interface Data {
-  setPagina: Function
-  lista: FilmeProps[]
-  setLista: Function
-  input: string
-  setInput: Function
-}
+import styles from './FormSearch.module.css'
+import { DataSearch, FormEventoSearch } from '../../interface';
 
 
-const FormSearch: React.FC<Data> = ({ setLista, input, setInput }) => {
+const FormSearch: React.FC<DataSearch> = ({ setLista, input, setInput }) => {
 
-  const funy = () => {
+  const query = () => {
 
     const options = {
       method: 'GET',
@@ -52,32 +35,34 @@ const FormSearch: React.FC<Data> = ({ setLista, input, setInput }) => {
 
   }
 
-
-
-  const handleSubmit = (event: Eventos) => {
+  const handleSubmit = (event: FormEventoSearch) => {
     event.preventDefault()
-    if (input.length > 1) {
-      funy()
-    }
+    if (input.length > 1) query()
+
   }
 
-
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.formSearch} onSubmit={handleSubmit}>
       <Input
         type='text'
+        borderRightRadius={0}
         value={input}
         onChange={(event) => setInput(event.target.value)}
-
-
+        m={0}
+        placeholder='Homem Aranha'
       />
       <Button
         mt={4}
         colorScheme='teal'
         type='submit'
+        display='block'
+        marginTop={0}
+        borderLeftRadius={0}
+        paddingLeft={2}
+        paddingRight={7}
+        m={0}
       >
-        Submit
+        Buscar
       </Button>
     </form>
   )

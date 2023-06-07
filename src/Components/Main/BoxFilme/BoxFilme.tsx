@@ -1,18 +1,9 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react'
 import styles from './BoxFilme.module.css'
+import { DataBoxFilme } from '../../../interface';
 
-
-interface BoxFilmeProps {
-  poster_path: string
-  title: string
-  lista: Array<Object>
-  onClick: Function
-  setFilme: Function
-  index: number
-}
-
-const BoxFilme: React.FC<BoxFilmeProps> = ({ poster_path, title, onClick, setFilme, index, lista }) => {
+const BoxFilme: React.FC<DataBoxFilme> = ({ poster_path, title, onClick, setFilme, index, lista }) => {
   const handleClick = () => {
     setFilme(lista[index])
     onClick()

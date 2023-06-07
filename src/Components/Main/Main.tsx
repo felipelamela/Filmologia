@@ -3,26 +3,10 @@ import axios from 'axios'
 import BoxFilme from './BoxFilme/BoxFilme'
 import { Modal, Spinner, useDisclosure } from "@chakra-ui/react"
 import BoxModal from './BoxModal/BoxModal'
+import { FilmePropsMain, DataMain } from '../../interface'
 
-interface FilmeProps {
-  title: string,
-  poster_path: string,
-  vote_average: number,
-  overview: string,
-  release_date: string
-}
-
-interface Data {
-  dataFilmes: number | null
-  pagina: number
-  setPagina: Function
-  lista: FilmeProps[]
-  setLista: Function
-  setInput: Function
-}
-
-const Main: React.FC<Data> = ({ dataFilmes, pagina, lista, setLista, setInput }) => {
-  const [filme, setFilme] = React.useState<FilmeProps | null>(null)
+const Main: React.FC<DataMain> = ({ dataFilmes, pagina, lista, setLista, setInput }) => {
+  const [filme, setFilme] = React.useState<FilmePropsMain | null>(null)
   const [anoFilme, setAnoFilme] = React.useState<number>(0)
   const { isOpen, onOpen, onClose } = useDisclosure()
 

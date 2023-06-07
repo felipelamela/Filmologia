@@ -1,0 +1,7 @@
+.formSearch {
+  max-width: 800px;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  margin: 0 0 2rem;
+}
